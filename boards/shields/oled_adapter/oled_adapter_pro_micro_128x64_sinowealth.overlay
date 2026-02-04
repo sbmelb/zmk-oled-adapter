@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) 2025 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/*
+ * 1. checks if the label "oled" was defined on the shields/boards and if so
+ *    disables it. It is a simple but better implementation than
+ *    "/delete-node/ &oled;" because it adds oled_xxx from scratch, that is,
+ *    even "if the node oled" did not exist before
+ * 2. Macros like #if defined(DT_NODELABEL_oled) do not require any #include in
+ * the .overlay or .dts files. the build system automatically defines them in
+ * the preprocessor before compiling the devicetree.
+ * 3. ref1: https://docs.zephyrproject.org/apidoc/latest/group__devicetree-generic-id.html
+ * 4. ref2: nvim zmk/zephyr/include/zephyr/devicetree.h
+ * test:
+ *       grep -n "zephyr,display" zmk/build/zephyr/zephyr.dts
+ *       zephyr,display = &oled_128x128;
+ */
+
+// /delete-node/ &oled;
+#if defined(DT_NODELABEL_oled)
+&oled {
+    status = "disabled";
+};
+#endif
+
+&pro_micro_i2c {
+    status = "okay";
+
+    oled_128x64: sh1106@3c {
+        compatible = "sinowealth,sh1106";
+        reg = <0x3c>;
+        width = <128>;
+        height = <64>;
+        /* Typical SH1106 128x64 needs a column offset (often 2) */
+        segment-offset = <2>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <63>;
+        segment-remap;
+        com-invdir;
+        inversion-on;
+        prechargep = <0x22>;
+        };
+
+    };
+
+
+/ {
+    chosen {
+        zephyr,display = &oled_128x64;
+    };
+};
+// vim: filetype=dts fdm=marker:
