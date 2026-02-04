@@ -8,18 +8,13 @@ if ZMK_DISPLAY
 config I2C
     default y
 
-# SSD1306-based shields
-config SSD1306
-    default y if SHIELD_OLED_ADAPTER_PRO_MICRO_128X32 || \
-                  SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SOLOMON || \
-                  SHIELD_OLED_ADAPTER_PRO_MICRO_128X128 || \
-                  SHIELD_OLED_ADAPTER_SEEEDUINO_XIAO_BLE_128X32 || \
-                  SHIELD_OLED_ADAPTER_SEEEDUINO_XIAO_BLE_128X64 || \
-                  SHIELD_OLED_ADAPTER_SEEEDUINO_XIAO_BLE_128X128
-
-# SH1106-based shields
+if SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SINOWEALTH
 config SH1106
-    default y if SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SINOWEALTH
+    default y
+else
+config SSD1306
+    default y
+endif
 
 endif # ZMK_DISPLAY
 
