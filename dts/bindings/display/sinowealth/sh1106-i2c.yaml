@@ -1,0 +1,31 @@
+description: Sinowealth SH1106 OLED controller over I2C
+
+compatible: "sinowealth,sh1106-i2c"
+
+include:
+  - name: i2c-device.yaml
+
+properties:
+  width:
+    type: int
+    required: true
+  height:
+    type: int
+    required: true
+
+  segment-offset:
+    type: int
+  page-offset:
+    type: int
+  display-offset:
+    type: int
+  multiplex-ratio:
+    type: int
+  segment-remap:
+    type: boolean
+  com-invdir:
+    type: boolean
+  inversion-on:
+    type: boolean
+  prechargep:
+    type: int
