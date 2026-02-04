@@ -8,14 +8,22 @@ if ZMK_DISPLAY
 config I2C
     default y
 
-if SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SINOWEALTH
-config SH1106
-    default y
-else
+endif    
+
+if SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SOLOMON || SHIELD_OLED_ADAPTER_PRO_MICRO_128X32
+if ZMK_DISPLAY
 config SSD1306
     default y
 endif
-
-endif # ZMK_DISPLAY
-
 endif
+
+if SHIELD_OLED_ADAPTER_PRO_MICRO_128X64_SINOWEALTH
+if ZMK_DISPLAY
+config SH1106
+    bool
+    default y
+endif
+endif
+
+
+
